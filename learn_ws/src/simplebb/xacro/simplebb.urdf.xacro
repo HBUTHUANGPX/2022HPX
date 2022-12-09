@@ -1,0 +1,45 @@
+<robot name="simplebb"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- <link name="base_footprint">
+        <visual>
+            <geometry>
+                <sphere radius="0.0001" />
+            </geometry>
+        </visual>
+    </link>  -->
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0 -5.5511E-17 -0.026187" rpy="0 0 0" />
+            <mass value="70.1499" />
+            <inertia ixx="19.541" ixy="-5.8234E-18" ixz="4.1587E-17" iyy="24.546" iyz="-1.3836E-17" izz="41.766" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://simplebb/meshes/base_link.STL" />
+            </geometry>
+            <material name="yellow">
+                <color rgba="0.5 0.3 0.0 0.5" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://simplebb/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <!-- <joint name="base_link2base_footprint" type="fixed">
+        <parent link="base_footprint" />
+        <child link="base_link" />
+        <origin xyz="0 0 0.14842" />
+    </joint> -->
+    <xacro:mc_wheel link_name="b_r" axis_y="1" joint_x="-1" joint_y="-1"/>
+    <xacro:mc_wheel link_name="b_l" axis_y="-1" joint_x="-1" joint_y="1"/>
+    <xacro:mc_wheel link_name="f_r" axis_y="1" joint_x="1" joint_y="-1"/>
+    <xacro:mc_wheel link_name="f_l" axis_y="-1" joint_x="1" joint_y="1"/>
+    <gazebo reference="base_link">
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+   
+</robot>

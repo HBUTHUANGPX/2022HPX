@@ -1,0 +1,14 @@
+<robot name="car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <xacro:include filename="inertial.urdf.xacro" />
+    
+    <xacro:include filename="car_base.urdf.xacro" />
+    <xacro:include filename="wheel.urdf.xacro" />
+    <xacro:include filename="camera.urdf.xacro" />
+    <xacro:include filename="ladar.urdf.xacro" />
+    <!-- <xacro:include filename="ladar_new.urdf.xacro" /> -->
+
+   <xacro:include filename="move.urdf.xacro" />
+   <xacro:include filename="sensor_camera.urdf.xacro" />
+   <xacro:include filename="sensor_ladar.urdf.xacro" />
+</robot>

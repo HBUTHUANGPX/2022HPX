@@ -1,0 +1,15 @@
+<robot name="simplebb_all" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:include filename="head.urdf.xacro" />
+    <xacro:include filename="wheel.urdf.xacro" />
+    
+    <xacro:include filename="simplebb.urdf.xacro" />
+    <xacro:include filename="my_laser.urdf.xacro" />
+    <xacro:include filename="my_camera.urdf.xacro" />
+    <xacro:include filename="my_move.urdf.xacro" />
+    <!-- <xacro:include filename="$(find simplebb)/xacro/realsensed435i_xacro/test_d435i_camera.urdf.xacro" /> -->
+    <!-- <xacro:include filename="$(find simplebb)/xacro/realsensed435i_xacro/d435i_camera_depth.urdf.xacro" /> -->
+
+    <!-- 雷达仿真的 xacro 文件 -->
+    <xacro:include filename="my_sensors_laser.urdf.xacro" />
+    <!-- <xacro:include filename="my_sensors_kinect.urdf.xacro" /> -->
+</robot>

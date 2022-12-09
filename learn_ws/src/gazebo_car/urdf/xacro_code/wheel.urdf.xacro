@@ -1,0 +1,45 @@
+<robot name="car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wheel_m" value="0.05" /> 
+    <xacro:property name="wheel_radius" value="0.0625" />
+    <xacro:property name="wheel_length" value="0.015" />
+    <xacro:macro name="wheel" params="dirction front_flag left_flag">
+        <link name="${dirction}_wheel">
+                <visual>
+                    <geometry>
+                        <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                    </geometry>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <material name="red">
+                        <color rgba="1 0 0 0.5" />
+                    </material>
+                </visual>
+
+
+                <collision>
+                    <geometry>
+                        <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                    </geometry>
+                    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                </collision>
+
+                <xacro:cylinder_inertial_matrix m = "${wheel_m}" r = "${wheel_radius}" h="${wheel_length}" />
+        </link>
+
+        <joint name="${dirction}_wheel_joint" type="continuous">
+                <parent link="car_base" />
+                <child link="${dirction}_wheel" />
+                <origin xyz="${0.15*front_flag} ${0.2075*left_flag} -0.1" rpy="1.57 0 0"/>
+                <axis xyz="0 0 1" />
+        </joint>
+
+        <gazebo reference="${dirction}_wheel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+
+    <xacro:wheel dirction="front_left" front_flag="1" left_flag="1" />
+    <xacro:wheel dirction="front_right" front_flag="1" left_flag="-1" />
+     <xacro:wheel dirction="back_left" front_flag="-1" left_flag="1" />
+    <xacro:wheel dirction="back_right" front_flag="-1" left_flag="-1" /> 
+</robot>
