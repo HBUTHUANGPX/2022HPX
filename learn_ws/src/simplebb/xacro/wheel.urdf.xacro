@@ -1,0 +1,34 @@
+<robot name="mc_wheel"
+    xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="mc_wheel" params="link_name axis_y joint_x joint_y">
+        <link name="${link_name}_l">
+            <inertial>
+                <origin xyz="1.305E-06 ${-0.0001226*axis_y} 4.6233E-06" rpy="0 0 0" />
+                <mass value="0.21836" />
+                <inertia ixx="0.00010444" ixy="-9.9501E-08" ixz="-1.3183E-07" iyy="0.00018522" iyz="2.8085E-08" izz="0.00010401" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://simplebb/meshes/${link_name}_l.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://simplebb/meshes/${link_name}_l.STL" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${link_name}_j" type="continuous">
+            <origin xyz="${joint_x*0.1838} ${joint_y*0.2042} 0.07587" rpy="0 0 0" />
+            <parent link="base_link" />
+            <child link="${link_name}_l" />
+            <axis xyz="0 ${axis_y} 0" />
+            <limit effort="30" velocity="17.4" />
+        </joint>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,39 @@
+
+<launch>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="extra_gazebo_args" default=""/>
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="physics" default="ode"/>
+    <arg name="verbose" default="true"/>
+    <arg name="world" default="gazebo_ros_range"/>
+
+    <group if="$(arg use_sim_time)">
+        <param name="/use_sim_time" value="true" />
+    </group>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find simplebb)/world/2023_v_3_1.world"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="debug" value="$(arg debug)"/>
+    </include>
+    <arg name="model" default="$(find simplebb)/xacro/my_all.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <!-- <node name="car_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model simplebb_all -param robot_description -x -2 -y -2.5 -z 0.1"/> -->
+    <node name="car_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model simplebb_all -param robot_description -x 4 -y 7.5 -z 0.1"/>
+
+    <!-- <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+        <remap from="image" to="/camera/depth/image_raw" />
+        <param name="output_frame_id" value="camera"  />
+    </node> -->
+    <!-- <group ns="R4H">
+        <param name="robot_description" textfile="$(find simplebb)/urdf/R4H.urdf"/>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+        <node name="R4H_spawner" pkg="gazebo_ros" type="spawn_model"  respawn="false" output="screen" args="-urdf -model R4H -param robot_description -x 0"/>
+    </group> -->
+
+</launch>

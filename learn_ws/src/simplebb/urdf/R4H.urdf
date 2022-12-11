@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="R4H">
+
+  <link name="R4H">
+    <inertial>
+      <origin xyz="1.0737 2.7047 0.2024" rpy="0 0 0" />
+      <mass value="4853.4" />
+      <inertia ixx="16321" ixy="2200.2" ixz="7.6305" iyy="2808.4" iyz="30.415" izz="18952" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://simplebb/meshes/R4H.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://simplebb/meshes/R4H.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

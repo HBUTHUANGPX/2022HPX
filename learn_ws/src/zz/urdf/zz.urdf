@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="zz">
+  <link name="map_link">
+    <inertial>
+      <origin xyz="14 0.25122 7.5" rpy="0 0 0" />
+      <mass value="162940" />
+      <inertia ixx="1001000" ixy="-5.4854E-12" ixz="19786" iyy="3996900" iyz="-1.0516E-12" izz="3018000" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://zz/meshes/map_link.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://zz/meshes/map_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+</robot>
