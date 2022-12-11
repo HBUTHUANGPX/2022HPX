@@ -1,0 +1,11 @@
+Header header  
+int32 L1_press
+int32 L2
+int32 R1_press
+int32 R2
+int32 L3_up_down
+int32 L3_left_right
+int32 L3_press
+int32 R3_up_down
+int32 R3_left_right
+int32 R3_press
