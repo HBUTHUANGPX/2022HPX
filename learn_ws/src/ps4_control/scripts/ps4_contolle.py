@@ -1,5 +1,5 @@
 from pyPS4Controller.controller import Controller
-from ps4_Control.msg import PS4
+from ps4_control.msg import PS4
 import rospy
 import os
 import struct
@@ -17,7 +17,7 @@ class MyController(Controller):
 
     def __init__(self, **kwargs):
         Controller.__init__(self, **kwargs)
-        self.node = rospy.init_node("PS4_Controll")
+        self.node = rospy.init_node("ps4_controll")
         self.pub = rospy.Publisher("PS4",PS4,queue_size=10)
         self.msg=PS4()
         rospy.set_param("L3_up_down",0)

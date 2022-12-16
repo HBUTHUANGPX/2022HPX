@@ -30,7 +30,7 @@ void byte_to_float(float px, float py, std::string byte)
 }
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "my_serial_port");
+    ros::init(argc, argv, "my_serial_port_ops");
     ros::NodeHandle n;
     ros::Publisher pub_pos_x = n.advertise<std_msgs::Float32>("pos_x", 10);
     ros::Publisher pub_pos_y = n.advertise<std_msgs::Float32>("pos_y", 10);

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(ps4_Control)
+project(odom_imu_ops)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,7 +10,9 @@ project(ps4_Control)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  serial
   std_msgs
+  sensor_msgs
   message_generation
 )
 
@@ -50,7 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  PS4.msg
+  my_imu.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -71,6 +73,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+  sensor_msgs
 )
 
 ################################################
@@ -104,8 +107,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES ps4_Control
- CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+#  LIBRARIES odom_imu_ops
+ CATKIN_DEPENDS roscpp rospy serial std_msgs sensor_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -122,9 +125,8 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/ps4_Control.cpp
+#   src/${PROJECT_NAME}/odom_imu_ops.cpp
 # )
-# 节点构建选项，配置目标链接库
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -134,7 +136,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(ps4_contro src/ps4_contro.cpp)
+add_executable(odom_pub src/odom_pub.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,7 +149,7 @@ add_executable(ps4_contro src/ps4_contro.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(ps4_contro
+target_link_libraries(odom_pub
   ${catkin_LIBRARIES}
 )
 
@@ -160,10 +162,10 @@ target_link_libraries(ps4_contro
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-catkin_install_python(PROGRAMS
-  scripts/ps4_contolle.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# catkin_install_python(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
@@ -198,7 +200,7 @@ catkin_install_python(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ps4_Control.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_odom_imu_ops.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

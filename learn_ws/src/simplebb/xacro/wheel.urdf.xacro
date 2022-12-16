@@ -30,7 +30,7 @@
             <parent link="base_link" />
             <child link="${link_name}_l" />
             <axis xyz="0 ${axis_y} 0" />
-            <limit effort="30000000" velocity="17.4" />
+            <limit effort="30000000000" velocity="550" />
         </joint>
     </xacro:macro>
 </robot>

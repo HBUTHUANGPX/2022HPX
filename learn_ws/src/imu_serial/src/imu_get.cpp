@@ -2,10 +2,12 @@
 #include <serial/serial.h>
 #include <std_msgs/Char.h>
 #include <sensor_msgs/Imu.h>
+#include <imu_serial/my_imu.h>
 #include <iostream>
 #include <string>
 #include <sstream>
-
+#include "nav_msgs/Odometry.h"
+#include <tf/tf.h>
 using namespace std;
 
 int serial_read(serial::Serial &ser, std::string &result)
@@ -13,12 +15,16 @@ int serial_read(serial::Serial &ser, std::string &result)
     result = ser.read(ser.available());
     return 0;
 }
-
+typedef union
+{
+    unsigned char cdata[8];
+    short sdata[4];
+} Imu;
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "my_serial_port");
+    ros::init(argc, argv, "my_serial_port_imu");
     ros::NodeHandle n;
-    ros::Publisher pub_imu = n.advertise<sensor_msgs::Imu>("Imu_pub", 10);
+    ros::Publisher pub_imu = n.advertise<imu_serial::my_imu>("Imu_pub", 10);
     serial::Serial ser;
 
     //初始化串口相关设置
@@ -44,104 +50,70 @@ int main(int argc, char **argv)
     {
         return -1;
     }
-    ros::Rate loop_rate(100);
+    ros::Rate loop_rate(200);
     std::string data;
     sensor_msgs::Imu imu_data;
+    imu_serial::my_imu my_imu_data;
+    my_imu_data.Imu.header.frame_id="base_link";
+    my_imu_data.Imu.header.seq=0;
+    nav_msgs::Odometry position;
+    tf::Quaternion RQ2;
+    Imu acc, wv, rpy,sy;
     while (ros::ok())
     {
         serial_read(ser, data);
+        
         if (data[0] == 0x55)
         {
-            // cout << "=====" << data.length();
-            if (data.length() == 0x42)
+            if (data[0x0b] == 0x55 && data[0x0c] == 0x51) // l_acc
             {
-
-                if (data[0x0b] == 0x55 && data[0x0c] == 0x51) // l_acc
+                for (int i = 0; i < 8; i++)
                 {
-                    imu_data.linear_acceleration.x = (float)((data[0x0e] << 8) | data[0x0d]) / 32768.0 * 16.0;
-                    if (imu_data.linear_acceleration.x >= 16.0)
-                    {
-                        imu_data.linear_acceleration.x -= 32.0;
-                    }
-                    imu_data.linear_acceleration.y = (float)((data[0x10] << 8) | data[0x0f]) / 32768.0 * 16.0;
-                    if (imu_data.linear_acceleration.y >= 16.0)
-                    {
-                        imu_data.linear_acceleration.y -= 32.0;
-                    }
-                    imu_data.linear_acceleration.z = (float)((data[0x12] << 8) | data[0x11]) / 32768.0 * 16.0;
-                    if (imu_data.linear_acceleration.z >= 16.0)
-                    {
-                        imu_data.linear_acceleration.z -= 32.0;
-                    }
+                    acc.cdata[i] = data[0x0d + i];
                 }
-                if (data[0x16] == 0x55 && data[0x17] == 0x52) // w_v
-                {
-                    imu_data.angular_velocity.x = (float)((data[0x19] << 8) | data[0x18]) / 32768.0 * 2000.0;
-                    if (imu_data.angular_velocity.x >= 2000.0)
-                    {
-                        imu_data.angular_velocity.x -= 4000.0;
-                    }
-                    imu_data.angular_velocity.y = (float)((data[0x1b] << 8) | data[0x1a]) / 32768.0 * 2000.0;
-                    if (imu_data.angular_velocity.y >= 2000.0)
-                    {
-                        imu_data.angular_velocity.y -= 4000.0;
-                    }
-                    imu_data.angular_velocity.z = (float)((data[0x1d] << 8) | data[0x1c]) / 32768.0 * 2000.0;
-                    if (imu_data.angular_velocity.z >= 2000.0)
-                    {
-                        imu_data.angular_velocity.z -= 4000.0;
-                    }
-                }
-                if (data[0x21] == 0x55 && data[0x22] == 0x53) // w
-                {
-                }
-                if (data[0x2c] == 0x55 && data[0x2d] == 0x54) // c
-                {
-                }
-                if (data[0x37] == 0x55 && data[0x38] == 0x59) // orientation
-                {
-                    imu_data.orientation.x = (float)((data[0x3a] << 8) | data[0x39]) / 32768.0;
-                    if (imu_data.orientation.x >= 1.0)
-                    {
-                        imu_data.orientation.x -= 2.0;
-                    }
-                    imu_data.orientation.y = (float)((data[0x3c] << 8) | data[0x3b]) / 32768.0;
-                    if (imu_data.orientation.y >= 1.0)
-                    {
-                        imu_data.orientation.y -= 2.0;
-                    }
-                    imu_data.orientation.z = (float)((data[0x3e] << 8) | data[0x3d]) / 32768.0;
-                    if (imu_data.orientation.z >= 1.0)
-                    {
-                        imu_data.orientation.z -= 2.0;
-                    }
-                    imu_data.orientation.w = (float)((data[0x40] << 8) | data[0x3f]) / 32768.0;
-                    if (imu_data.orientation.w >= 1.0)
-                    {
-                        imu_data.orientation.w -= 2.0;
-                    }
-                }
-                if (data[0x00] == 0x55 && data[0x01] == 0x50) // time
-                {
-                    // imu_data.header.stamp.nsec = ((data[0x09] << 8) | data[0x08]) * 1000;
-                }
+                my_imu_data.Imu.linear_acceleration.x = acc.sdata[0] / 32768.0f * 16.0f;
+                my_imu_data.Imu.linear_acceleration.y = acc.sdata[1] / 32768.0f * 16.0f;
+                my_imu_data.Imu.linear_acceleration.z = acc.sdata[2] / 32768.0f * 16.0f;
             }
-            // for (int i = 0; i < data.length(); i++)
-            // {
-            //     if (data[i] == 0x55)
-            //     {
-            //         cout << endl;
-            //     }
-            //     cout << hex << (int)data[i] << "(" << i << ")"
-            //          << " ";
-            // }
-            // cout << endl;
-            imu_data.header.stamp = ros::Time::now();
-
-            // cout << imu_data.orientation << endl;
-            pub_imu.publish(imu_data);
+            if (data[0x16] == 0x55 && data[0x17] == 0x52) // w_v
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    wv.cdata[i] = data[0x18 + i];
+                }
+                my_imu_data.Imu.angular_velocity.x = wv.sdata[0] / 32768.0f * 2000.0f;
+                my_imu_data.Imu.angular_velocity.y = wv.sdata[1] / 32768.0f * 2000.0f;
+                my_imu_data.Imu.angular_velocity.z = wv.sdata[2] / 32768.0f * 2000.0f;
+            }
+            if (data[0x21] == 0x55 && data[0x22] == 0x53) // w
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    rpy.cdata[i] = data[0x23 + i];
+                }
+                my_imu_data.wx=rpy.sdata[0]/ 32768.0f * 180.0f;
+                my_imu_data.wy=rpy.sdata[1]/ 32768.0f * 180.0f;
+                my_imu_data.wz=rpy.sdata[2]/ 32768.0f * 180.0f;
+            }
+            if (data[0x2C] == 0x55 && data[0x2D] == 0x59) // orientation
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    sy.cdata[i] = data[0x2E + i];
+                }
+                my_imu_data.Imu.orientation.x = sy.sdata[0] / 32768.0f;
+                my_imu_data.Imu.orientation.y = sy.sdata[1] / 32768.0f;
+                my_imu_data.Imu.orientation.z = sy.sdata[2] / 32768.0f;
+                my_imu_data.Imu.orientation.w = sy.sdata[3] / 32768.0f;
+            }
+            if (data[0x00] == 0x55 && data[0x01] == 0x50) // time
+            {
+                // imu_data.header.stamp.nsec = ((data[0x09] << 8) | data[0x08]) * 1000;
+            }
+            my_imu_data.Imu.header.seq+=1;
+            my_imu_data.Imu.header.stamp = ros::Time::now();
+            pub_imu.publish(my_imu_data);
         }
-        // cout << " the data read from serial is : " << data.c_str()<<endl;
     }
 
     ser.close();
