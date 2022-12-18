@@ -1,8 +1,10 @@
 <launch>
-    <!-- <node pkg="PID_Control" name="echo_system" type="echo_sys.py" output="screen" respawn="false"/> -->
-    <!-- <node pkg="can_read" name="Can_recv_publisher" type="Can_recv" output="screen" respawn="true"/> -->
-    <!-- <node pkg="can_read" name="Can_active_node" type="Can_active" output="screen" respawn="true"/> -->
+    <node pkg="tf" type="static_transform_publisher" name="fix_map" args="0 0 0 0 0 0 map odom 50" />
+    <node pkg="tf" type="static_transform_publisher" name="fix_odom" args="0 0 0 0 0 0 odom base_footprint 50" />
+
     <include file="$(find rplidar_ros)/launch/rplidar_a3.launch" />                              <!-- 思岚雷达启动节点 -->
+    <include file="$(find simplebb)/launch/main.launch" />                                       <!-- 机器人状态发布 -->
+    <include file="$(find simplebb)/launch/DWA_TEB_navi/navigate.launch" />                      <!-- 开启导航 -->
     <node pkg="imu_serial" name="my_serial_port" type="Imu_get" output="screen" respawn="true"/> <!-- imu串口读取发送节点 -->
     <node pkg="ps4_control" name="teleop_ps4" type="ps4_contro" output="screen" respawn="true"/> <!-- PS4控制节点 -->
     <node pkg="odom_imu_ops" name="my_odom" type="odom_pub" output="screen" respawn="true"/>     <!-- ops串口读取imu读取odom发送节点 -->

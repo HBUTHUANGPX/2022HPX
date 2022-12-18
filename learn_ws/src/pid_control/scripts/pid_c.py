@@ -226,7 +226,7 @@ class my_pid():
 
     def init_can(self):
         print("Start to init CAN port")
-        self.can0 = can.interface.Bus(channel='can0', bustype='socketcan')
+        # self.can0 = can.interface.Bus(channel='can0', bustype='socketcan')
         print("CAN port has init")
         # self.can_date=[0xA1,0x00,0x00,0x00,0x00,0x00,0x00,0x00]
         # self.msg =can.Message(arbitration_id=0x142,data=self.can_date,is_extended_id=False)

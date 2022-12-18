@@ -24,11 +24,11 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "my_serial_port_imu");
     ros::NodeHandle n;
-    ros::Publisher pub_imu = n.advertise<imu_serial::my_imu>("Imu_pub", 10);
+    ros::Publisher pub_imu = n.advertise<imu_serial::my_imu>("Imu_pub", 1);
     serial::Serial ser;
 
     //初始化串口相关设置
-    ser.setPort("/dev/ttyUSB0");                               //设置打开的串口名称
+    ser.setPort("/dev/USB_imu");                               //设置打开的串口名称
     ser.setBaudrate(115200);                                   //设置串口的波特率
     serial::Timeout to = serial::Timeout::simpleTimeout(1000); //创建timeout
     ser.setTimeout(to);                                        //设置串口的timeout
@@ -44,13 +44,13 @@ int main(int argc, char **argv)
     }
     if (ser.isOpen())
     {
-        ROS_INFO_STREAM("Serial Port initialized. \n"); //成功打开串口，打印信息
+        ROS_INFO_STREAM("IMU Serial Port initialized."); //成功打开串口，打印信息
     }
     else
     {
         return -1;
     }
-    ros::Rate loop_rate(200);
+    ros::Rate loop_rate(180);
     std::string data;
     sensor_msgs::Imu imu_data;
     imu_serial::my_imu my_imu_data;

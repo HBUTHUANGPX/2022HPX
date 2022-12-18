@@ -18,15 +18,16 @@ int serial_read(serial::Serial &ser, std::string &result)
     result = ser.read(ser.available());
     return 0;
 }
-void byte_to_float(float px, float py, std::string byte)
+void byte_to_float(float *px, float *py, std::string byte)
 {
     Posture pos;
     for (int i = 0; i < 24; i++)
     {
         pos.ldata[i] = byte[i + 2];
     }
-    px = pos.fdata[3];
-    py = pos.fdata[4];
+    *px = pos.fdata[3];
+    *py = pos.fdata[4];
+    // cout<<px<<"      "<<py<<endl;
 }
 int main(int argc, char **argv)
 {
@@ -59,31 +60,46 @@ int main(int argc, char **argv)
     }
     ros::Rate loop_rate(100);
     std::string data;
-    float pos_x = 0;
-    float pos_y = 0;
+    float pos_x=0;
+    float pos_y=0;
+    float ori_pos_x=0;
+    float ori_pos_y=0;
     float fdata[6];
     int flag = 0;
     std_msgs::Float32 msg_pos_x, msg_pos_y;
     while (ros::ok())
     {
         serial_read(ser, data);
-        if (flag == 0)
+        // if (data.length() > 0)
+        // {
+        //     for (int i = 0; i < data.length(); i++)
+        //     {
+        //         cout << hex << " 0x/" << (unsigned short)data[i];
+        //     }
+        //     cout << endl;
+        // }
+
+        if (data.length() == 28 & flag == 0)
         {
             if (data[0] == 0xD & data[1] == 0xA)
             {
-                byte_to_float(pos_x, pos_y, data);
-                msg_pos_x.data = pos_x;
-                msg_pos_y.data = pos_y;
+                byte_to_float(&ori_pos_x, &ori_pos_y, data);
+                msg_pos_x.data = ori_pos_x;
+                msg_pos_y.data = ori_pos_y;
                 flag = 1;
             }
         }
-        if (data.length() == 28)
+        if (data.length() == 28 & flag == 1)
         {
+
             if (data[0] == 0xD & data[1] == 0xA)
             {
-                byte_to_float(pos_x, pos_y, data);
-                msg_pos_x.data -= pos_x;
-                msg_pos_y.data -= pos_y;
+                byte_to_float(&pos_x, &pos_y, data);
+                // cout<<"----------------"<<endl;
+                // cout <<pos_x<< "    " <<pos_y<< endl;
+                msg_pos_x.data = pos_x - ori_pos_x;
+                msg_pos_y.data = pos_y - ori_pos_y;
+                // cout << msg_pos_x.data << "    " << msg_pos_y.data << endl;
                 pub_pos_x.publish(msg_pos_x);
                 pub_pos_y.publish(msg_pos_y);
             }

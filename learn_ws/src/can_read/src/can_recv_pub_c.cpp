@@ -26,23 +26,7 @@ public:
     int s = socket(PF_CAN, SOCK_RAW, CAN_RAW);
     struct sockaddr_can addr;
     int sum = 0;
-    unsigned int a,b;
-    void receiveWork(struct can_frame frame,can_read::Can new_recv)
-    {
-        for (uint8_t i = 0; i < frame.can_dlc; ++i)
-        {
-            new_recv.hex_[i] = frame.data[i];
-            sum += frame.data[i];
-            std::cout<<std::hex<<frame.data[i];
-        }
-        std::cout<<std::endl;;
-        if (sum != frame.data[0])
-        {
-            new_recv.header.frame_id = frame.can_id;
-            new_recv.header.stamp = ros::Time::now();
-            new_recv.encoder = (unsigned int)new_recv.hex_[0] << 8 | new_recv.hex_[1];
-        }
-    }
+    unsigned short a,b;
     void receiveThread()
     {
         while (ros::ok())
@@ -58,77 +42,77 @@ public:
 
                 if (frame.can_id == 0x201)
                 {
-                    for (uint8_t i = 0; i < frame.can_dlc; ++i)
-                    {
-                        new_recv_1.hex_[i] = frame.data[i];
-                        sum += frame.data[i];
-                    }
+                    // for (uint8_t i = 0; i < frame.can_dlc; ++i)
+                    // {
+                    //     new_recv_1.hex_[i] = frame.data[i];
+                    //     sum += frame.data[i];
+                    // }
                     if (sum == frame.data[0])
                     {
                         continue;
                     }
                     new_recv_1.header.frame_id = frame.can_id;
                     new_recv_1.header.stamp = ros::Time::now();
-                    a = new_recv_1.hex_[0] << 8 | new_recv_1.hex_[1];
+                    a = frame.data[0] << 8 | frame.data[1];
                     new_recv_1.encoder = a;
-                    b = new_recv_1.hex_[2] << 8 | new_recv_1.hex_[3];
+                    b = frame.data[2] << 8 | frame.data[3];
                     new_recv_1.velotic = b;
                     pub_moto1.publish(new_recv_1);
                 }
                 else if(frame.can_id == 0x202)
                 {
-                    for (uint8_t i = 0; i < frame.can_dlc; ++i)
-                    {
-                        new_recv_2.hex_[i] = frame.data[i];
-                        sum += frame.data[i];
-                    }
+                    // for (uint8_t i = 0; i < frame.can_dlc; ++i)
+                    // {
+                    //     new_recv_2.hex_[i] = frame.data[i];
+                    //     sum += frame.data[i];
+                    // }
                     if (sum == frame.data[0])
                     {
                         continue;
                     }
                     new_recv_2.header.frame_id = frame.can_id;
                     new_recv_2.header.stamp = ros::Time::now();
-                    a = new_recv_2.hex_[0] << 8 | new_recv_2.hex_[1];
+                    a = frame.data[0] << 8 | frame.data[1];
                     new_recv_2.encoder = a;
-                    b = new_recv_2.hex_[2] << 8 | new_recv_2.hex_[3];
+                    b = frame.data[2] << 8 | frame.data[3];
                     new_recv_2.velotic = b;
                     pub_moto2.publish(new_recv_2);
                 }
                 else if(frame.can_id == 0x203)
                 {
-                    for (uint8_t i = 0; i < frame.can_dlc; ++i)
-                    {
-                        new_recv_3.hex_[i] = frame.data[i];
-                        sum += frame.data[i];
-                    }
+                    // for (uint8_t i = 0; i < frame.can_dlc; ++i)
+                    // {
+                    //     new_recv_3.hex_[i] = frame.data[i];
+                    //     sum += frame.data[i];
+                    // }
                     if (sum == frame.data[0])
                     {
                         continue;
                     }
                     new_recv_3.header.frame_id = frame.can_id;
                     new_recv_3.header.stamp = ros::Time::now();
-                    a = new_recv_3.hex_[0] << 8 | new_recv_3.hex_[1];
+                    a = frame.data[0] << 8 | frame.data[1];
                     new_recv_3.encoder = a;
-                    b = new_recv_3.hex_[2] << 8 | new_recv_3.hex_[3];
+                    b = frame.data[2] << 8 | frame.data[3];
                     new_recv_3.velotic = b;
                     pub_moto3.publish(new_recv_3);
                 }
                 else if(frame.can_id == 0x204)
                 {
-                    for (uint8_t i = 0; i < frame.can_dlc; ++i)
-                    {
-                        new_recv_4.hex_[i] = frame.data[i];
-                        sum += frame.data[i];
-                    }
+                    // for (uint8_t i = 0; i < frame.can_dlc; ++i)
+                    // {
+                    //     new_recv_4.hex_[i] = frame.data[i];
+                    //     sum += frame.data[i];
+                    // }
                     if (sum == frame.data[0])
                     {
                         continue;
                     }
                     new_recv_4.header.frame_id = frame.can_id;
                     new_recv_4.header.stamp = ros::Time::now();
-                    a = new_recv_4.hex_[0] << 8 | new_recv_4.hex_[1];
+                    a = frame.data[0] << 8 | frame.data[1];
                     new_recv_4.encoder = a;
-                    b = new_recv_4.hex_[2] << 8 | new_recv_4.hex_[3];
+                    b = frame.data[2] << 8 | frame.data[3];
                     new_recv_4.velotic = b;
                     pub_moto4.publish(new_recv_4);
                 }
