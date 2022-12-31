@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="jixiebi">
+    <link name="base_link">
+        <inertial>
+            <origin xyz="-1.0550161383018E-17 -5.24329292059058E-50 0" rpy="0 0 0" />
+            <mass value="0.893141652942297" />
+            <inertia ixx="0.0173646979782416" ixy="-5.02607215106347E-18" ixz="1.11022302462516E-20" iyy="0.0173646979782416" iyz="9.25185853854298E-21" izz="0.0347145102622675" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/base_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="link_2">
+        <inertial>
+            <origin xyz="-2.40878097408975E-17 -2.34682986249195E-17 0.00282819325895367" rpy="0 0 0" />
+            <mass value="1.209059671757" />
+            <inertia ixx="0.00584093219987658" ixy="-3.52365706057789E-19" ixz="-6.46108469543212E-19" iyy="0.00567333497454482" iyz="1.26816738042836E-19" izz="0.0108668445661779" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_2.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_2.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_1" type="continuous">
+        <origin xyz="0 0 0.005" rpy="0 0 0.084899" />
+        <parent link="base_link" />
+        <child link="link_2" />
+        <axis xyz="0 0 -1" />
+        <limit effort="100" velocity="1" />
+    </joint>
+    <link name="link_3">
+        <inertial>
+            <origin xyz="0.149965205559894 0.00323065339810263 -0.05" rpy="0 0 0" />
+            <mass value="2.62057961037267" />
+            <inertia ixx="0.00245737778688177" ixy="-0.000578146383870905" ixz="-1.88442440997029E-19" iyy="0.0292821693677553" iyz="-6.58168599789274E-19" izz="0.0288948764003918" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_3.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.27843137254902 1 0.294117647058824 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_3.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_2" type="revolute">
+        <origin xyz="0 -0.05 0.06" rpy="1.5708 -1.5708 0" />
+        <parent link="link_2" />
+        <child link="link_3" />
+        <axis xyz="0 0 -1" />
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="1" />
+    </joint>
+    <link name="link_4">
+        <inertial>
+            <origin xyz="0.0280959500092446 6.93889390390723E-18 -0.05" rpy="0 0 0" />
+            <mass value="0.165132741228719" />
+            <inertia ixx="0.000184292615563898" ixy="-8.470329472543E-21" ixz="5.51662972608895E-05" iyy="0.000226086906125154" iyz="4.5824558797898E-20" izz="0.000178590011367756" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_4.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_4.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_3" type="revolute">
+        <origin xyz="0.29993 0.0064613 0" rpy="0 0 -0.090835" />
+        <parent link="link_3" />
+        <child link="link_4" />
+        <axis xyz="0 0 1" />
+        <limit lower="-2" upper="2" effort="100" velocity="1" />
+    </joint>
+    <link name="link_5">
+        <inertial>
+            <origin xyz="0.119612639447075 2.08166817117217E-17 -5.20417042793042E-18" rpy="0 0 0" />
+            <mass value="0.891891585117502" />
+            <inertia ixx="0.000661221187082" ixy="-1.35525271560688E-19" ixz="9.74087889342445E-21" iyy="0.00417129698713738" iyz="-2.12181753287202E-19" izz="0.00386906220090069" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_5.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_5.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_4" type="continuous">
+        <origin xyz="0.05 0 -0.05" rpy="-3.0342 0 0" />
+        <parent link="link_4" />
+        <child link="link_5" />
+        <axis xyz="-1 0 0" />
+        <limit effort="100" velocity="1" />
+    </joint>
+    <link name="link_6">
+        <inertial>
+            <origin xyz="0.0280959500092448 0.05 4.16333634234434E-17" rpy="0 0 0" />
+            <mass value="0.165132741228719" />
+            <inertia ixx="0.000184292615563898" ixy="5.51662972608895E-05" ixz="-4.57397791517322E-20" iyy="0.000178590011367756" iyz="1.42380944477528E-19" izz="0.000226086906125154" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_6.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_6.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_5" type="revolute">
+        <origin xyz="0.21 0 -0.05" rpy="1.5708 0 0.049164" />
+        <parent link="link_5" />
+        <child link="link_6" />
+        <axis xyz="0 1 0" />
+        <limit lower="-2" upper="2" effort="100" velocity="1" />
+    </joint>
+    <link name="link_7">
+        <inertial>
+            <origin xyz="0.0198579719071885 1.38777878078145E-17 -0.00644049305877257" rpy="0 0 0" />
+            <mass value="0.106703537555513" />
+            <inertia ixx="0.000113360135166919" ixy="4.02340649945793E-21" ixz="-1.01643953670516E-20" iyy="4.76709049063445E-05" iyz="1.54848210669927E-20" izz="7.45752418647414E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_7.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://jixiebi/meshes/link_7.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="joint_6" type="continuous">
+        <origin xyz="0.06 0.05 0" rpy="0.42772 0 0" />
+        <parent link="link_6" />
+        <child link="link_7" />
+        <axis xyz="-1 0 0" />
+        <limit effort="100" velocity="1" />
+    </joint>
+    <transmission name="trans_joint_1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_2_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_3_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_4">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_4_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_5">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_5">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_5_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_joint_6">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_6">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_6_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <gazebo>
+        <plugin name="gazebo_ros_control">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+</robot>
+
