@@ -1,0 +1,18 @@
+<launch>
+    <!-- <include file="$(find rplidar_ros)/launch/rplidar_a3.launch" />-->
+    <node pkg="arm_moveit_2" name="fake_joint_fresh" type="fake_joint_fresh" output="screen" respawn="true"/> 
+    <node pkg="arm_moveit_2" name="my_action_server" type="my_action_server" output="screen" respawn="true"/> 
+    <!-- <node pkg="arm_moveit_2" name="ps4_control" type="ps4_control" output="screen" respawn="true"/>     -->
+    <!-- <node pkg="joy" name="joy_node" type="joy_node" output="screen" respawn="true"/>    -->
+</launch>
+<!-- 
+pkg： 节点所在的功能包名称
+type: 节点的可执行文件名称
+name: 节点运行时的名称
+output  =“log | screen” (可选)，日志发送目标，可以设置为 log 日志文件，或 screen 屏幕,默认是 log
+respawn =“true | false” (可选)，如果节点退出，是否自动重启
+required=“true | false” (可选)，该节点是否必须，如果为 true,那么如果该节点退出，将杀死整个 roslaunch
+ns=“xxx” (可选)，在指定命名空间 xxx 中启动节点
+machine=“机器名”，在指定机器上启动节点
+args=“xxx xxx xxx” (可选)，将参数传递给节点
+-->

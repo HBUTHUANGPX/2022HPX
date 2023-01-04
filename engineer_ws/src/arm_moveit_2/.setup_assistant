@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: engineer_arm_2
+    relative_path: urdf/engineer_arm_2.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/engineer_arm_2.srdf
+  CONFIG:
+    author_name: hpx
+    author_email: 2082672018@qq.com
+    generated_timestamp: 1672744511

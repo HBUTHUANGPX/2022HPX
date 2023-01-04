@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: simple_arm_2
+    relative_path: xacro/simple_arm_2.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/simplebb_all.srdf
+  CONFIG:
+    author_name: hpx
+    author_email: 2082672018@qq.com
+    generated_timestamp: 1669807608
